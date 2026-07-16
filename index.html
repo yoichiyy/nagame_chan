@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<script>
-(function(){var p=prompt('🔑');if(p!=='な'){document.addEventListener('DOMContentLoaded',function(){document.body.innerHTML='<div style="text-align:center;margin-top:40vh;font-size:2em;">🔒</div>';});}})();
-</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MORIMORITIMES — 俺の今</title>
@@ -839,7 +836,7 @@
 </style>
 <div id="pw-overlay">
   <div class="pw-title">🗞 MORIMORITIMES</div>
-  <input id="pw-input" type="password" maxlength="4" autofocus placeholder="—" />
+  <input id="pw-input" type="text" maxlength="10" autofocus placeholder="—" autocomplete="off" autocorrect="off" autocapitalize="off" />
   <div id="pw-error">パスワードが違います</div>
   <div class="pw-hint">Enterで確認</div>
 </div>
@@ -850,7 +847,7 @@
     var error = document.getElementById('pw-error');
     input.addEventListener('keydown', function (e) {
       if (e.key === 'Enter') {
-        if (input.value === 'な') {
+        if (input.value === 'n') {
           overlay.style.display = 'none';
         } else {
           error.style.display = 'block';
