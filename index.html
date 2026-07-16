@@ -810,5 +810,57 @@
   </div>
 </div>
 
+<!-- ═══════ PASSWORD OVERLAY ═══════ -->
+<style>
+  #pw-overlay {
+    position: fixed; inset: 0; z-index: 9999;
+    background: #1a1a1a;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 20px;
+  }
+  #pw-overlay .pw-title {
+    color: #faf8f2; font-size: 28px; font-weight: 900;
+    font-style: italic; letter-spacing: 2px;
+  }
+  #pw-overlay input {
+    width: 80px; padding: 12px 16px;
+    font-size: 24px; text-align: center;
+    border: 2px solid #faf8f2; background: transparent;
+    color: #faf8f2; outline: none; border-radius: 4px;
+    font-family: 'Noto Sans JP', sans-serif;
+  }
+  #pw-overlay .pw-hint {
+    color: #888; font-size: 13px;
+  }
+  #pw-error {
+    color: #c0392b; font-size: 14px; display: none;
+  }
+</style>
+<div id="pw-overlay">
+  <div class="pw-title">🗞 MORIMORITIMES</div>
+  <input id="pw-input" type="password" maxlength="4" autofocus placeholder="—" />
+  <div id="pw-error">パスワードが違います</div>
+  <div class="pw-hint">Enterで確認</div>
+</div>
+<script>
+  (function () {
+    var input = document.getElementById('pw-input');
+    var overlay = document.getElementById('pw-overlay');
+    var error = document.getElementById('pw-error');
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        if (input.value === 'な') {
+          overlay.style.display = 'none';
+        } else {
+          error.style.display = 'block';
+          input.value = '';
+          input.focus();
+        }
+      }
+    });
+  })();
+</script>
+
 </body>
 </html>
