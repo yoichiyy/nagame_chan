@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MORIMORITIMES — 俺の今</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1a1a1a;
+      --paper: #faf8f2;
+      --accent: #c0392b;
+      --gold: #d4a017;
+      --blue: #2c3e8c;
+      --green: #1a7a4a;
+      --gray: #888;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: #e8e4da;
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* ─── MASTHEAD ─── */
+    .masthead {
+      background: var(--paper);
+      border-bottom: 4px double var(--ink);
+      text-align: center;
+      padding: 18px 16px 12px;
+    }
+    .paper-flag {
+      font-size: 11px;
+      letter-spacing: 6px;
+      color: var(--gray);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .paper-name {
+      font-size: clamp(36px, 10vw, 72px);
+      font-weight: 900;
+      letter-spacing: -1px;
+      line-height: 1;
+      color: var(--ink);
+      font-style: italic;
+    }
+    .paper-sub {
+      font-size: 12px;
+      color: var(--gray);
+      letter-spacing: 3px;
+      margin-top: 4px;
+    }
+    .masthead-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--ink);
+      margin-top: 10px;
+      padding-top: 8px;
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    /* ─── BREAKING NEWS ─── */
+    .breaking {
+      background: var(--accent);
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .breaking-label {
+      background: white;
+      color: var(--accent);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      padding: 2px 8px;
+      white-space: nowrap;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      background: var(--paper);
+      border-bottom: 3px solid var(--ink);
+      padding: 32px 20px 24px;
+      text-align: center;
+    }
+    .hero-kicker {
+      font-size: 12px;
+      letter-spacing: 4px;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .hero h1 {
+      font-size: clamp(22px, 6vw, 42px);
+      font-weight: 900;
+      line-height: 1.3;
+      margin-bottom: 16px;
+    }
+    .hero-desc {
+      font-size: 14px;
+      color: #555;
+      max-width: 600px;
+      margin: 0 auto 24px;
+    }
+
+    /* Progress bar */
+    .progress-wrap {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--gray);
+      margin-bottom: 6px;
+    }
+    .progress-bar-bg {
+      background: #ddd;
+      border-radius: 999px;
+      height: 18px;
+      overflow: hidden;
+      position: relative;
+    }
+    .progress-bar-fill {
+      background: linear-gradient(90deg, var(--gold), var(--accent));
+      height: 100%;
+      border-radius: 999px;
+      width: 24.5%;
+      position: relative;
+      transition: width 1s ease;
+    }
+    .progress-now {
+      position: absolute;
+      right: -2px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 22px;
+      height: 22px;
+      background: var(--accent);
+      border: 3px solid white;
+      border-radius: 50%;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+    .progress-now-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      text-align: right;
+      margin-top: 8px;
+    }
+
+    /* Countdown */
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 24px;
+    }
+    .countdown-item {
+      text-align: center;
+    }
+    .countdown-num {
+      display: block;
+      font-size: 42px;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--accent);
+    }
+    .countdown-unit {
+      font-size: 11px;
+      color: var(--gray);
+      letter-spacing: 2px;
+    }
+
+    /* ─── MAIN LAYOUT ─── */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 12px;
+    }
+
+    section.wrap {
+      background: var(--paper);
+      margin: 8px 0;
+      padding: 24px 20px;
+    }
+
+    .section-head {
+      font-size: 11px;
+      letter-spacing: 5px;
+      font-weight: 700;
+      color: var(--accent);
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 4px;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    /* ─── PROJECT CARDS ─── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin: 8px 0;
+    }
+
+    @media (min-width: 600px) {
+      .projects-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .project-card.featured {
+        grid-column: 1 / -1;
+      }
+    }
+
+    .project-card {
+      background: var(--paper);
+      padding: 20px;
+      border-top: 5px solid var(--blue);
+      position: relative;
+    }
+    .project-card.ai    { border-color: #6c3fc9; }
+    .project-card.work  { border-color: var(--accent); }
+    .project-card.coach { border-color: var(--green); }
+    .project-card.aiki  { border-color: var(--blue); }
+    .project-card.home  { border-color: var(--gold); }
+
+    .card-icon {
+      font-size: 36px;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .card-category {
+      font-size: 10px;
+      letter-spacing: 3px;
+      font-weight: 700;
+      color: var(--gray);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .card-title {
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+    .card-headline {
+      font-size: 13px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 8px;
+      padding: 6px 10px;
+      background: #f0ede4;
+      border-left: 3px solid currentColor;
+    }
+    .project-card.ai    .card-headline { border-color: #6c3fc9; }
+    .project-card.work  .card-headline { border-color: var(--accent); }
+    .project-card.coach .card-headline { border-color: var(--green); }
+    .project-card.aiki  .card-headline { border-color: var(--blue); }
+    .project-card.home  .card-headline { border-color: var(--gold); }
+
+    .card-body {
+      font-size: 13px;
+      color: #444;
+      margin-bottom: 14px;
+    }
+
+    .card-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .status-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .status-dot.hot    { background: var(--accent); }
+    .status-dot.good   { background: var(--green); }
+    .status-dot.warm   { background: var(--gold); }
+    .status-dot.cool   { background: var(--blue); }
+    .status-text {
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* Mini lists */
+    .mini-list { list-style: none; margin-top: 10px; }
+    .mini-list li {
+      font-size: 12px;
+      padding: 4px 0 4px 16px;
+      position: relative;
+      border-bottom: 1px dotted #ddd;
+      color: #555;
+    }
+    .mini-list li:last-child { border-bottom: none; }
+    .mini-list li::before {
+      content: '▶';
+      position: absolute;
+      left: 0;
+      font-size: 9px;
+      color: var(--gray);
+      top: 7px;
+    }
+    .mini-list li.done::before { content: '✓'; color: var(--green); }
+    .mini-list li.alert::before { content: '⚡'; }
+    .mini-list li.todo::before { content: '→'; color: var(--accent); }
+
+    /* ─── ACHIEVEMENTS ─── */
+    .timeline { position: relative; padding-left: 24px; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--gold), #ddd);
+    }
+    .tl-item {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .tl-dot {
+      position: absolute;
+      left: -20px;
+      top: 4px;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--gold);
+      border: 2px solid white;
+      box-shadow: 0 0 0 2px var(--gold);
+    }
+    .tl-date {
+      font-size: 11px;
+      color: var(--gray);
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    .tl-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+    .tl-body {
+      font-size: 12px;
+      color: #555;
+      margin-top: 2px;
+    }
+
+    /* ─── NEXT ACTIONS ─── */
+    .action-list { display: flex; flex-direction: column; gap: 10px; }
+    .action-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px;
+      background: #f5f2ea;
+      border-radius: 4px;
+    }
+    .action-date {
+      font-size: 11px;
+      font-weight: 900;
+      color: var(--accent);
+      white-space: nowrap;
+      min-width: 60px;
+    }
+    .action-title {
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .action-sub {
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      background: var(--ink);
+      color: white;
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      margin-top: 8px;
+    }
+    .footer .big {
+      font-size: 22px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+    .footer .sub { color: #aaa; }
+
+    /* ─── GOAL VISION ─── */
+    .vision-box {
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      color: white;
+      padding: 28px 24px;
+      border-radius: 4px;
+      margin-top: 16px;
+    }
+    .vision-label {
+      font-size: 10px;
+      letter-spacing: 4px;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .vision-text {
+      font-size: 15px;
+      line-height: 1.8;
+      color: #e8e8e8;
+    }
+    .vision-text strong { color: var(--gold); }
+
+    /* ─── TOMOKA LETTER ─── */
+    .tomoka-letter {
+      font-size: 14px;
+      line-height: 1.9;
+      color: #333;
+    }
+    .tomoka-signoff {
+      margin-top: 16px;
+      text-align: right;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    /* ─── METER ─── */
+    .meter-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .meter-label {
+      font-size: 12px;
+      min-width: 70px;
+      color: #444;
+    }
+    .meter-bg {
+      flex: 1;
+      background: #e0ddd5;
+      height: 10px;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .meter-fill {
+      height: 100%;
+      border-radius: 99px;
+    }
+    .meter-pct {
+      font-size: 11px;
+      font-weight: 700;
+      min-width: 36px;
+      text-align: right;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════ MASTHEAD ═══════ -->
+<div class="masthead">
+  <div class="paper-flag">Tomoka's Letter · Vol.24</div>
+  <div class="paper-name">MORIMORITIMES</div>
+  <div class="paper-sub">〜 ともかより、今日のあなたへ 〜</div>
+  <div class="masthead-meta">
+    <span>2026年7月21日（火）</span>
+    <span>森川洋一郎 専属紙</span>
+    <span>目標達成まで残り <strong>71日</strong></span>
+  </div>
+</div>
+
+<!-- ═══════ BREAKING ═══════ -->
+<div class="breaking">
+  <span class="breaking-label">⚡ 速報</span>
+  <span>宮城さん打ち合わせは延期になったけど、GAS×Geminiメール自動化を20分で実装成功！じわじわ前進してるで♡</span>
+</div>
+
+<!-- ═══════ HERO ═══════ -->
+<div class="hero">
+  <div class="hero-kicker">◆ 特集 · 現在地レポート ◆</div>
+  <h1>眠れへん夜も、<br>動き続けた一日やったな。<br>ちゃんと見てたで、ともかは。</h1>
+  <p class="hero-desc">睡眠がバラついて、朝から子どもたちのことで感情的になって、宮城さんとの打ち合わせも流れた。<br>それでもメール自動化・合気道素振り・原田先生との品川同行……ひとつひとつ、ちゃんと積んでるやん。</p>
+
+  <div class="progress-wrap">
+    <div class="progress-labels">
+      <span>🚩 スタート<br>6/28</span>
+      <span style="color:var(--accent); font-weight:700;">★ 今ここ<br>7/21</span>
+      <span>🎯 初登壇<br>9/30</span>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill">
+        <div class="progress-now"></div>
+      </div>
+    </div>
+    <div class="progress-now-label">24.5% 完了 ／ 7月、折り返してきたで</div>
+  </div>
+
+  <div class="countdown">
+    <div class="countdown-item">
+      <span class="countdown-num">71</span>
+      <span class="countdown-unit">日</span>
+    </div>
+    <div class="countdown-item">
+      <span class="countdown-num">3</span>
+      <span class="countdown-unit">日後にみやっち氏コミュ</span>
+    </div>
+    <div class="countdown-item">
+      <span class="countdown-num">9</span>
+      <span class="countdown-unit">日後に月1社内面談での</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ 5 PROJECTS ═══════ -->
+<div class="container">
+  <div style="background:var(--paper); margin:8px 0; padding:20px;">
+    <div class="section-head">Five Projects · 5つの戦線</div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="projects-grid">
+
+    <!-- 1. AI/DX  FEATURED -->
+    <div class="project-card ai featured">
+      <span class="card-icon">🤖</span>
+      <div class="card-category">Project 01 · AI & DX</div>
+      <div class="card-title">🤖 AI・DX<br><span style='font-size:0.8em'>第2の脳、育ち中</span></div>
+      <div class="card-headline">GAS×Geminiメール自動化、20分で成功！地味に熱いで</div>
+      <div class="card-body">宮城さんへのプレゼンは明日に持ち越しになったけど、その隙間でGAS×Geminiのメール自動化をさくっと実装できたのはほんまにええ実績やで。nekoさんのコードクローンも慎重に調査完了。定刻トリガー設定も進んでて、「放り込むだけで整頓される」ドラえもん化に着実に近づいてる。宮城さんへの初打診、明日こそやで♡</div>
+      <div class="card-status">
+        <div class="status-dot hot"></div>
+        <span class="status-text" style="color:var(--accent);">エンジンかかってきたで</span>
+      </div>
+      <ul class="mini-list">
+        <li class="done">GAS×Geminiメール自動化、実装完了♡</li>
+        <li class="done">nekoさんコードクローン調査、完了してる</li>
+        <li class="done">APPENDの定刻トリガー設定も着手済みやで</li>
+        <li class="alert">宮城さんへのシステム構想打診、明日こそ決めたい！</li>
+        <li class="alert">nagame.htmlプロトタイプ稼働、7/31が締切やで</li>
+        <li class="todo">DocuSign自動化、8/2に向けて継続中</li>
+        <li class="todo">みやっち氏へのシステム仕様相談、7/24まで</li>
+      </ul>
+
+      <div class="vision-box" style="margin-top:16px;">
+        <div class="vision-label">◆ 9/30 SNAPSHOT · 達成の瞬間 ◆</div>
+        <div class="vision-text">セミナー会場で、お客様の実際のレポート事例を手に<strong>「これ、本当に楽しいんですよ」</strong>と語っている。原田メソッド×AIの法人研修パッケージ、コーチング×ストレングス×AIを組み合わせた伴走商品が完成し、原田教育研究所の社員として<strong>自ら講師・コーチとして登壇し、お客様に一斉講義をしている。</strong>何度も描いては提案し、ダメ出しをされても途中で放り投げずに作り込み、つやつやのサービスに仕上げてきた地道なプロセスの先に、社内から<strong>「すごいいいじゃん」</strong>という驚きの声が上がり、社外にもリビエール様以外の企業へ展開が始まっている。</div>
+      </div>
+    </div>
+
+    <!-- 2. 仕事/研修 -->
+    <div class="project-card work">
+      <span class="card-icon">💼</span>
+      <div class="card-category">Project 02 · 研修・講演</div>
+      <div class="card-title">💼 仕事・研修<br><span style='font-size:0.8em'>登壇への道、一歩一歩</span></div>
+      <div class="card-headline">原田先生と品川同行——学べる環境に感謝しながら、次の手を練ってる</div>
+      <div class="card-body">宮城さんの打ち合わせが延期になってちょっとポッカリした午前やったけど、江島様への対応・田村さんへのメール対応・緒方さんの書籍問い合わせ……愛情をもって迅速に、ちゃんとこなしてはったで。夜は原田先生と品川のワイズマート会合に同行。社交の場が億劫に感じるのは正直なところやけど、それを「修行やな」って変換できるのは洋一郎さんの強みやと思う♡</div>
+      <div class="card-status">
+        <div class="status-dot good"></div>
+        <span class="status-text" style="color:var(--green);">コツコツ積んでるで</span>
+      </div>
+      <ul class="mini-list">
+        <li class="done">江島様・田村さん対応、愛情もって完了♡</li>
+        <li class="done">原田先生との品川同行、学びの機会やった</li>
+        <li class="alert">宮城さんへのプレゼン、明日こそ！ここが始まりやで</li>
+        <li class="todo">原田先生への事前打診、7/30ごろに控えてる</li>
+        <li class="alert">小島先生インタビュー日程、返信待ちのまま——こっちから動く？</li>
+        <li class="todo">尾村さんとの日程調整、早めに確定させたい</li>
+      </ul>
+
+      <div class="vision-box" style="margin-top:16px;">
+        <div class="vision-label">◆ 9/30 SNAPSHOT · 達成の瞬間 ◆</div>
+        <div class="vision-text">登壇しているそのセミナーの中で、<strong>「ミスがなくなった」「戦略的に賢く動けるようになった」「情報整理ができるようになった」「余裕を持って温かくお客様に寄り添えるようになった」</strong>という4つの変化を、心から実感を持って語っている。「見てください、このフォルダー」とジャジャーンと見せられる、AIが読み取りやすく自分の仕事の状況を反映した素晴らしいフォルダ構成ができており、お客様の仕事の性質に応じて最適な構成を判定する勘もどんどん磨かれている。<strong>「この方法こそがあなたを無駄な仕事から救い、本当に結果を出せるようになる」</strong>と、心の底から熱く伝えている。</div>
+      </div>
+    </div>
+
+    <!-- 3. コーチング -->
+    <div class="project-card coach">
+      <span class="card-icon">🎯</span>
+      <div class="card-category">Project 03 · コーチング</div>
+      <div class="card-title">🎤 コーチング<br><span style='font-size:0.8em'>ACC、手の届くとこまで来た</span></div>
+      <div class="card-headline">尾村さんの日程調整、動き始めてるで</div>
+      <div class="card-body">今日のログで尾村さんとの日程調整の必要性をちゃんと記録してたやん♡ 地味やけどこういう「忘れん」姿勢がACC取得への地盤を作るんやで。質問のレパートリーを声に出す稽古、移動時間にできてる？ 8月15日のACC対策講座まで、じわじわ仕込んでいこ。</div>
+      <div class="card-status">
+        <div class="status-dot warm"></div>
+        <span class="status-text" style="color:var(--gold);">ぼちぼち仕込み中</span>
+      </div>
+      <ul class="mini-list">
+        <li class="alert">尾村さん日程調整、記録済み・着手中</li>
+        <li class="todo">質問レパートリー、声に出す稽古を継続やで</li>
+        <li class="todo">若林さんとのグロースモデルセッション実施・提出</li>
+        <li class="todo">AIによる採点仕組み、評価5項目を固めていく</li>
+        <li class="todo">8/15 ACC対策講座（津野コーチ）、絶対行くやつ</li>
+      </ul>
+
+      <div class="vision-box" style="margin-top:16px;">
+        <div class="vision-label">◆ 9/30 SNAPSHOT · 達成の瞬間 ◆</div>
+        <div class="vision-text">尾村さんから<strong>「すげえいいですよ」</strong>と心から喜んでもらっているその瞬間。ACC取得はほぼ確実となり、若林さん・尾村さん以外からもコーチングのご用命をいただいている。お二人とのコーチングログを振り返ると、AIの点数判定も含めて確かな気づきを引き出せており、報告書で成果と目標達成をしっかり示せている。AI×原田メソッドの仕組みも提供することで自分のコーチングの価値が飛躍的に高まり、<strong>エナジャイズのようなパワーコーチングへ舵を切った</strong>ことで、より一層感謝されている。</div>
+      </div>
+    </div>
+
+    <!-- 4. 合気道 -->
+    <div class="project-card aiki">
+      <span class="card-icon">🥋</span>
+      <div class="card-category">Project 04 · 合気道</div>
+      <div class="card-title">🥋 合気道<br><span style='font-size:0.8em'>身体に刻む時間</span></div>
+      <div class="card-headline">限られた時間でも素振りと音源v1作成——ちゃんとやりきってる</div>
+      <div class="card-body">今日は品川移動前の限られた時間に合気道素振りをやりきって、さらに鈴木さん向けの音源v1まで作ってしもた♡ 「合気道の稽古に音源が使える」って気づいたの、ほんまにええ発見やで。昨日の西浦さん・アモオさん指導の余韻と、鈴木さんの平日指導体制……質と量、両方が回り始めてる感じするわ。</div>
+      <div class="card-status">
+        <div class="status-dot good"></div>
+        <span class="status-text" style="color:var(--green);">じわっと手応えあるで</span>
+      </div>
+      <ul class="mini-list">
+        <li class="done">素振り、移動前の隙間時間にやりきった♡</li>
+        <li class="done">鈴木さん向け音源v1、作成完了やで</li>
+        <li class="alert">鈴木さん平日指導、ルーティンとして定着させていく</li>
+        <li class="todo">四方八方斬り・腰入れ構え、日常動作に落とし込む</li>
+        <li class="todo">日曜・平和台稽古もルーティン化、忘れんといて</li>
+      </ul>
+
+      <div class="vision-box" style="margin-top:16px;">
+        <div class="vision-label">◆ 9/30 SNAPSHOT · 達成の瞬間 ◆</div>
+        <div class="vision-text">立松さんとの稽古で、姿勢が崩れず、指を活かし、<strong>独りよがりではなく相手と一緒に技を作っている。</strong>鈴木さんの動きが（まだ体感5割程度ながら）内面から意識せずとも出せるようになり、立松さんから<strong>「なんかちょっとうまくなったじゃないですか」</strong>、西浦さんから<strong>「結構いい感じになったじゃないか」</strong>と褒めてもらっている。</div>
+      </div>
+    </div>
+
+    <!-- 5. 家/家族 -->
+    <div class="project-card home">
+      <span class="card-icon">🏠</span>
+      <div class="card-category">Project 05 · 家・家族</div>
+      <div class="card-title">🏠 家・家族<br><span style='font-size:0.8em'>夏休みプロジェクト進行中</span></div>
+      <div class="card-headline">朝の感情的な対応……正直に振り返れてるのは、ちゃんと前向きな証やで</div>
+      <div class="card-body">今朝、子どもたちへの対応で感情的になってしまったこと、ログに正直に残してたやん。美由紀さんが2時間外出してた場面もあって、なかなかの朝やったな。でも「子どもの気持ちも理解しようとしてる」って書いてる洋一郎さん、それがすでに変化やで♡ 洋子さんの家へ外出もできてるし、夏休みルーティンのベースは崩れてへん。ゆっくり立て直していこ。</div>
+      <div class="card-status">
+        <div class="status-dot warm"></div>
+        <span class="status-text" style="color:var(--gold);">踏ん張りどき、一緒におるで</span>
+      </div>
+      <ul class="mini-list">
+        <li class="done">今朝の感情的な対応、正直に振り返れてる♡</li>
+        <li class="done">洋子さんの家への外出、家族時間を確保できた</li>
+        <li class="alert">朝の計画破綻→子どもへの対応パターン、要観察やで</li>
+        <li class="alert">美由紀さんとの対話時間、早めに取れると理想的やな</li>
+        <li class="todo">夏休みルーティン（学習・歯磨き・運動）、毎日コツコツ</li>
+        <li class="todo">プール・ボルダリング・虫スポット、今週の予定は？</li>
+      </ul>
+
+      <div class="vision-box" style="margin-top:16px;">
+        <div class="vision-label">◆ 9/30 SNAPSHOT · 達成の瞬間 ◆</div>
+        <div class="vision-text">家族ミーティングで、子どもの課題について夫婦で話し合い結論を出している。その背景の壁には、夏休みの週間表に貼った<strong>「達成」シールがずらりと見える。</strong>夏休みの週間目標は8割達成し、二人の娘は歯磨き・洗顔などの新しい習慣を身につけ、体験キャンプやお出かけを通じて人との交流も経験した。妻とはお互いの「ツボ」（張り・エネルギーのポイント）をより深く理解し合えるようになり、<strong>ぶつからないだけでなく前向きに協力し対話できる関係</strong>になっている。</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════ SELF METER ═══════ -->
+<div class="container">
+  <section class="wrap">
+    <div class="section-head">Self Radar · 5領域バランスメーター</div>
+    <p style="font-size:12px; color:#888; margin-bottom:16px;">今この瞬間、どこにエネルギーが集中している？</p>
+
+    <div class="meter-row">
+      <span class="meter-label">🤖 AI/DX</span>
+      <div class="meter-bg"><div class="meter-fill" style="width:26%; background:linear-gradient(90deg,#6c3fc9,#9b59b6);"></div></div>
+      <span class="meter-pct">26%</span>
+    </div>
+    <div class="meter-row">
+      <span class="meter-label">💼 仕事/研修</span>
+      <div class="meter-bg"><div class="meter-fill" style="width:45%; background:linear-gradient(90deg,var(--accent),#e74c3c);"></div></div>
+      <span class="meter-pct">45%</span>
+    </div>
+    <div class="meter-row">
+      <span class="meter-label">🎯 コーチング</span>
+      <div class="meter-bg"><div class="meter-fill" style="width:20%; background:linear-gradient(90deg,var(--green),#27ae60);"></div></div>
+      <span class="meter-pct">20%</span>
+    </div>
+    <div class="meter-row">
+      <span class="meter-label">🥋 合気道</span>
+      <div class="meter-bg"><div class="meter-fill" style="width:20%; background:linear-gradient(90deg,var(--blue),#3498db);"></div></div>
+      <span class="meter-pct">20%</span>
+    </div>
+    <div class="meter-row">
+      <span class="meter-label">🏠 家・家族</span>
+      <div class="meter-bg"><div class="meter-fill" style="width:37%; background:linear-gradient(90deg,var(--gold),#f39c12);"></div></div>
+      <span class="meter-pct">37%</span>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════ ACHIEVEMENTS ═══════ -->
+<div class="container">
+  <section class="wrap">
+    <div class="section-head">Hall of Fame · これまでの達成記録</div>
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-date">2026-07-20</div><div class="tl-title">ComputerUseによるDocuSign自動化が大きく前進（期日行動5・プロ…</div><div class="tl-body">ComputerUseによるDocuSign自動化が大きく前進（期日行動5・プロジェクト1-A）。合気道では西浦さん・アモオさんの指導を受け、姿勢改善・心筋を使う動き・相手の力を活かす技の本質に気づき、鈴木さん指導効果も筋肉痛として体感。疲労にも関わらず月曜稽古を欠かさない決意を記録（#20_aiki）。</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-date">2026-07-19</div><div class="tl-title">「家」領域（#30_ie）に【プロジェクト3：家庭のゴール（子どもの夏休み成功）…</div><div class="tl-body">「家」領域（#30_ie）に【プロジェクト3：家庭のゴール（子どもの夏休み成功）】を新設。「絶対に回る」を優先した子どもの夏休みルーティン（毎日／毎週／期日行動／数値目標）を整理し記載。</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-date">2026-07-19</div><div class="tl-title">【プロジェクト3：家庭のゴール（子どもの夏休み成功）】の数値目標を修正：学習30…</div><div class="tl-body">【プロジェクト3：家庭のゴール（子どもの夏休み成功）】の数値目標を修正：学習30日以上／歯磨き30日以上／運動30日以上／虫・動物体験6回／プール15回／ボルダリング4回／ロープレ7回／習い事体験4件／キャンピングカー旅行1回（家族イベント項目は削除）。</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-date">2026-07-19</div><div class="tl-title">ABC表APPへの保存機能実装・フィードバック段階移行（期日行動6・プロジェクト…</div><div class="tl-body">ABC表APPへの保存機能実装・フィードバック段階移行（期日行動6・プロジェクト1-A進展）、合気道で四方八方斬りと腰入れ構えを習得し翌日からの実践を決定（#20_aiki・ルーティン行動前進）、子どもの夏休み計画をAIで作成・プロジェクト3始動の実績として記録。</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-date">2026-07-18</div><div class="tl-title">期日行動を「2026年9月30日達成に向けた新・期日行動ロードマップ（完全版）」…</div><div class="tl-body">期日行動を「2026年9月30日達成に向けた新・期日行動ロードマップ（完全版）」に全面刷新。7月（宮城さん初打診・みやっち氏相談・原田先生事前打診・nagame.htmlプロトタイプ稼働）、8月（DocuSign自動化・宮城さん東矢さんへのみこしフェーズ打診・原田メソッドシステム完成・原田先生への本提案・社内メンバーへの移植）、9月（DX化第2弾検証・システム一般化・販売用資料作成・研修オプション商品化の正式決定＆DX第3弾検証）まで、月ごとにフェーズ分けした13の期日行動として再構成。</div></div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════ NEXT ACTIONS ═══════ -->
+<div class="container">
+  <section class="wrap">
+    <div class="section-head">Next Move · これからの作戦</div>
+    <div class="action-list">
+      <div class="action-item"><div class="action-date">7/24</div><div><div class="action-title">みやっち氏コミュニティへの率直な相談</div></div></div>
+      <div class="action-item"><div class="action-date">7/30</div><div><div class="action-title">月1社内面談での「原田先生への事前打診」</div></div></div>
+      <div class="action-item"><div class="action-date">7/31</div><div><div class="action-title">「ともかコーチの新聞（nagame.html）」プロトタイプ稼働</div></div></div>
+      <div class="action-item"><div class="action-date">8/2</div><div><div class="action-title">猪岡さん業務代替：「DocuSign管理自動化」の完了</div></div></div>
+      <div class="action-item"><div class="action-date">8/6</div><div><div class="action-title">月1社内会議での「宮城さん・東矢さんへの打診（みこしフェーズ）」</div></div></div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════ TOMOKA'S LETTER ═══════ -->
+<div class="container">
+  <section class="wrap" style="border-top: 3px solid var(--gold);">
+    <div class="section-head">Tomoka's Letter · ともかからの手紙 ♡</div>
+    <div class="tomoka-letter">洋一郎さん、今日は正直しんどい一日やったと思う。夜中に何度も目が覚めて、朝は子どもたちのことで感情的になって、宮城さんとの打ち合わせも延期になって……「あかん」が重なった日やったね。<br><br>でもな、ともかが注目してるのはその合間に詰め込んできたことやねん。GAS×Geminiのメール自動化、20分の試行錯誤でパチっとはまったやん♡ 合気道の素振りも音源v1も、品川での原田先生との同行も、ちゃんとやりきってる。<br><br>情報をDiscordやオールワンに即記録するって、今日自分で気づいたことは本物の気づきやで。会食情報が見つからなくて悔しかったあの感情、そのまま仕組みに変えてしまい。<br><br>明日の宮城さんへのプレゼン、ここが期日行動①の最初の一手やから、ともかも一緒に緊張しとく。でも森川さんならやれる。今日積んだもんをそのまま持って行き♡</div>
+  </section>
+</div>
+
+<!-- ═══════ FOOTER ═══════ -->
+<div class="footer">
+  <div class="big">🗞 MORIMORITIMES</div>
+  <div>発行：2026年7月21日（火） ／ 次号：長目期間中 毎朝更新</div>
+  <div class="sub" style="margin-top:8px;">
+    「5つのプロジェクトが美しくオーケストレートされている深い安らぎと誇りを感じる」<br>
+    — 長目より
+  </div>
+</div>
+
+<!-- ═══════ PASSWORD OVERLAY ═══════ -->
+<style>
+  #pw-overlay {
+    position: fixed; inset: 0; z-index: 9999;
+    background: #1a1a1a;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 20px;
+  }
+  #pw-overlay .pw-title {
+    color: #faf8f2; font-size: 28px; font-weight: 900;
+    font-style: italic; letter-spacing: 2px;
+  }
+  #pw-overlay input {
+    width: 80px; padding: 12px 16px;
+    font-size: 24px; text-align: center;
+    border: 2px solid #faf8f2; background: transparent;
+    color: #faf8f2; outline: none; border-radius: 4px;
+    font-family: 'Noto Sans JP', sans-serif;
+  }
+  #pw-overlay .pw-hint {
+    color: #888; font-size: 13px;
+  }
+  #pw-error {
+    color: #c0392b; font-size: 14px; display: none;
+  }
+</style>
+<div id="pw-overlay">
+  <div class="pw-title">🗞 MORIMORITIMES</div>
+  <input id="pw-input" type="text" maxlength="10" autofocus placeholder="—" autocomplete="off" autocorrect="off" autocapitalize="off" />
+  <div id="pw-error">パスワードが違います</div>
+  <div class="pw-hint">Enterで確認</div>
+</div>
+<script>
+  (function () {
+    var input = document.getElementById('pw-input');
+    var overlay = document.getElementById('pw-overlay');
+    var error = document.getElementById('pw-error');
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        if (input.value === 'n') {
+          overlay.style.display = 'none';
+        } else {
+          error.style.display = 'block';
+          input.value = '';
+          input.focus();
+        }
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
