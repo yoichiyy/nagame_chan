@@ -765,7 +765,7 @@
     var error = document.getElementById('pw-error');
     input.addEventListener('keydown', function (e) {
       if (e.key === 'Enter') {
-        if (input.value === 'n') {
+        if (input.value === 'n' || input.value === 'な') {
           overlay.style.display = 'none';
         } else {
           error.style.display = 'block';
